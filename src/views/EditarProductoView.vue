@@ -1,34 +1,44 @@
 <template>
-  <section class="card" v-if="producto">
-    <h2 style="margin-top:0;">Editar: {{ producto.nombre }}</h2>
-    <form @submit.prevent="actualizar">
-      <label>Nombre</label>
-      <input v-model="form.nombre" required />
+  <section class="container mt-4">
+    <div v-if="producto" class="card">
+      <div class="card-body">
+        <h2 class="card-title mb-3">Editar: {{ producto.nombre }}</h2>
+        <form @submit.prevent="actualizar">
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input v-model="form.nombre" type="text" class="form-control" required />
+          </div>
 
-      <div class="field-row">
-        <div>
-          <label>Precio</label>
-          <input v-model.number="form.precio" type="number" min="0" step="0.01" required />
-        </div>
-        <div>
-          <label>Stock</label>
-          <input v-model.number="form.stock" type="number" min="0" step="1" required />
-        </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Precio</label>
+              <input v-model.number="form.precio" type="number" min="0" step="0.01" class="form-control" required />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Stock</label>
+              <input v-model.number="form.stock" type="number" min="0" step="1" class="form-control" required />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea v-model="form.descripcion" rows="3" class="form-control"></textarea>
+          </div>
+
+          <div class="d-flex gap-2 mt-3">
+            <button type="submit" class="btn btn-primary">Actualizar</button>
+            <router-link class="btn btn-secondary" to="/productos">Cancelar</router-link>
+          </div>
+        </form>
       </div>
+    </div>
 
-      <label>Descripción</label>
-      <textarea v-model="form.descripcion" rows="3"></textarea>
-
-      <div style="margin-top:12px; display:flex; gap:8px;">
-        <button class="btn primary" type="submit">Actualizar</button>
-        <router-link class="btn" to="/productos">Cancelar</router-link>
+    <div v-else class="card">
+      <div class="card-body">
+        <p class="text-muted mb-0">Producto no encontrado.</p>
       </div>
-    </form>
+    </div>
   </section>
-
-  <div v-else class="card">
-    <p class="muted">Producto no encontrado.</p>
-  </div>
 </template>
 
 <script setup>
@@ -41,7 +51,7 @@ const router = useRouter()
 const productos = useProductoStore()
 
 const producto = computed(() => productos.obtenerProductoPorId(route.params.id))
-const form = reactive({ nombre:'', precio:0, stock:0, descripcion:'' })
+const form = reactive({ nombre: '', precio: 0, stock: 0, descripcion: '' })
 
 watchEffect(() => {
   if (producto.value) {

@@ -1,25 +1,30 @@
 <template>
-  <section>
-    <header style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px;">
+  <section class="container mt-4">
+    <!-- Encabezado -->
+    <header class="d-flex align-items-center justify-content-between mb-3">
       <div>
-        <h2 style="margin:0; font-size:24px;">Productos</h2>
-        <p class="muted" style="margin:4px 0 0;">Lista completa. Puedes editar, eliminar o agregar al carrito.</p>
+        <h2 class="h4 mb-0">Productos</h2>
+        <p class="text-muted mb-0">Lista completa. Puedes editar, eliminar o agregar al carrito.</p>
       </div>
-      <router-link class="btn primary" to="/productos/crear">+ Nuevo</router-link>
+      <router-link class="btn btn-primary" to="/productos/crear">+ Nuevo</router-link>
     </header>
 
-    <div v-if="productos.length" class="grid">
-      <ProductoCard
-        v-for="p in productos"
-        :key="p.id"
-        :producto="p"
-        @eliminar="eliminar(p.id)"
-        @agregar="agregar(p)"
-      />
+    <!-- Lista de productos -->
+    <div v-if="productos.length" class="row g-3">
+      <div class="col-md-4" v-for="p in productos" :key="p.id">
+        <ProductoCard
+          :producto="p"
+          @eliminar="eliminar(p.id)"
+          @agregar="agregar(p)"
+        />
+      </div>
     </div>
 
+    <!-- Mensaje si no hay productos -->
     <div v-else class="card">
-      <p class="muted">No hay productos. Crea el primero.</p>
+      <div class="card-body">
+        <p class="text-muted mb-0">No hay productos. Crea el primero.</p>
+      </div>
     </div>
   </section>
 </template>

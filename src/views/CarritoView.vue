@@ -1,55 +1,61 @@
 <template>
-  <section>
-    <header style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+  <section class="container mt-4">
+    <header class="d-flex align-items-center justify-content-between mb-3">
       <div>
-        <h2 style="margin:0;">Carrito</h2>
-        <p class="muted" style="margin:4px 0 0;">Resumen de tu pedido.</p>
+        <h2 class="mb-0">Carrito</h2>
+        <p class="text-muted mb-0">Resumen de tu pedido.</p>
       </div>
-      <button class="btn danger" @click="vaciar" :disabled="!carrito.length">Vaciar carrito</button>
+      <button class="btn btn-danger" @click="vaciar" :disabled="!carrito.length">
+        Vaciar carrito
+      </button>
     </header>
 
-    <div class="card" v-if="carrito.length">
-      <table>
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th class="right">Precio</th>
-            <th class="right">Cantidad</th>
-            <th class="right">Subtotal</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in carrito" :key="item.id">
-            <td>{{ item.nombre }}</td>
-            <td class="right">$ {{ item.precio.toFixed(2) }}</td>
-            <td class="right">
-              <span class="list-inline">
-                <button class="btn" @click="decrementar(item.id)">−</button>
-                <strong>{{ item.cantidad }}</strong>
-                <button class="btn" @click="incrementar(item.id)">+</button>
-              </span>
-            </td>
-            <td class="right">$ {{ (item.precio * item.cantidad).toFixed(2) }}</td>
-            <td class="right">
-              <button class="btn danger" @click="eliminar(item.id)">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td><strong>Totales</strong></td>
-            <td class="right"><strong>—</strong></td>
-            <td class="right"><strong>{{ totalArticulos }}</strong></td>
-            <td class="right"><strong>$ {{ totalPrecio.toFixed(2) }}</strong></td>
-            <td></td>
-          </tr>
-        </tfoot>
-      </table>
+    <div v-if="carrito.length" class="card">
+      <div class="card-body p-0">
+        <table class="table table-striped mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th>Producto</th>
+              <th class="text-end">Precio</th>
+              <th class="text-end">Cantidad</th>
+              <th class="text-end">Subtotal</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in carrito" :key="item.id">
+              <td>{{ item.nombre }}</td>
+              <td class="text-end">$ {{ item.precio.toFixed(2) }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <button class="btn btn-outline-secondary btn-sm" @click="decrementar(item.id)">−</button>
+                  <button class="btn btn-light btn-sm disabled">{{ item.cantidad }}</button>
+                  <button class="btn btn-outline-secondary btn-sm" @click="incrementar(item.id)">+</button>
+                </div>
+              </td>
+              <td class="text-end">$ {{ (item.precio * item.cantidad).toFixed(2) }}</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-danger" @click="eliminar(item.id)">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot class="table-light">
+            <tr>
+              <td><strong>Totales</strong></td>
+              <td class="text-end"><strong>—</strong></td>
+              <td class="text-end"><strong>{{ totalArticulos }}</strong></td>
+              <td class="text-end"><strong>$ {{ totalPrecio.toFixed(2) }}</strong></td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
 
     <div v-else class="card">
-      <p class="muted">Tu carrito está vacío.</p>
+      <div class="card-body">
+        <p class="text-muted mb-0">Tu carrito está vacío.</p>
+      </div>
     </div>
   </section>
 </template>
